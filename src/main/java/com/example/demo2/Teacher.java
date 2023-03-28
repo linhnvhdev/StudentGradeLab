@@ -11,6 +11,7 @@ import javax.persistence.Id;
  *
  * @author linhnvhdev
  */
+//hello comment
 //hello ae a 123
 @Entity
 public class Teacher {
@@ -18,4 +19,5 @@ public class Teacher {
     private String id;
     
     private String name;
+    // Some fancy comment here
 }
