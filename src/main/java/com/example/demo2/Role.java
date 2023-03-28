@@ -9,15 +9,29 @@ import javax.persistence.Id;
 
 /**
  *
- * @author linhnvhdev
+ * @author loidinhcap
  */
-//hello comment
-//hello ae a 123
 @Entity
-public class Teacher {
+public class Role {
     @Id
-    private String id;
+    private int id;
     
     private String name;
-    // Some fancy comment here
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }
