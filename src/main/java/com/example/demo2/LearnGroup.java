@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
  * @author loidinhcap
  */
 @Entity
-public class Group {
+public class LearnGroup {
     @Id
     private int id;
     private String name;
@@ -31,6 +31,12 @@ public class Group {
     @ManyToOne
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private Lecturer lecturer;
+    
+    @ManyToMany
+    @JoinTable(name = "Group_Student",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
 
     public int getId() {
         return id;
@@ -64,11 +70,6 @@ public class Group {
         this.lecturer = lecturer;
     }
     
-    @ManyToMany
-    @JoinTable(name = "Group_Student",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private List<Student> students;
 
     public List<Student> getStudents() {
         return students;

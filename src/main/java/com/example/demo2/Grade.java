@@ -26,6 +26,9 @@ public class Grade {
     @Id
     private int course_id;
     
+    @Id
+    private String grade_type;
+    
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Student student;
@@ -104,5 +107,12 @@ public class Grade {
     public void setValue(float value) {
         this.value = value;
     }
-    
+
+    public String getGrade_type() {
+        return grade_type;
+    }
+
+    public void setGrade_type(String grade_type) {
+        this.grade_type = grade_type;
+    }
 }

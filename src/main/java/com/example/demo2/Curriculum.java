@@ -4,10 +4,13 @@
  */
 package com.example.demo2;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -20,9 +23,12 @@ public class Curriculum {
     
     private String name;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "dept_id", referencedColumnName = "id")
     private Dept dept;
+    
+    @OneToMany(mappedBy = "curriculum")
+    private List<Curriculum_Course> curriculemCourse;
 
     public int getId() {
         return id;

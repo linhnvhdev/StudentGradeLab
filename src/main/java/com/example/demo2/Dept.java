@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Dept {
     private String name;
     private String engname;
     
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "majorid", referencedColumnName = "id")
     private Major major;
 

@@ -4,8 +4,10 @@
  */
 package com.example.demo2;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -19,6 +21,10 @@ public class Course {
     private String name;
     private String shortname;
     private int credit;
+    
+    @OneToMany(mappedBy = "course")
+    private List<Curriculum_Course> curriculemCourse;
+    
 
     public int getId() {
         return id;

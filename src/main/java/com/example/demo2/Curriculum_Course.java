@@ -24,28 +24,32 @@ public class Curriculum_Course {
     private int course_id;
     
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private List<Student> students;
+    @JoinColumn(name = "course_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Course course;
     
     @ManyToOne
     @JoinColumn(name = "curriculum_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private List<Curriculum> curriculums;
+    private Curriculum curriculum;
 
-    public List<Student> getStudents() {
-        return students;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+    
+    
+
+    public Curriculum getCurriculum() {
+        return curriculum;
     }
 
-    public List<Curriculum> getCurriculums() {
-        return curriculums;
+    public void setCurriculum(Curriculum curriculum) {
+        this.curriculum = curriculum;
     }
 
-    public void setCurriculums(List<Curriculum> curriculums) {
-        this.curriculums = curriculums;
-    }
+    
     
     private int term;
 

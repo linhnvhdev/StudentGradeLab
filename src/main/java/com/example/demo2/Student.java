@@ -42,13 +42,13 @@ public class Student {
     private User user;
     
     @ManyToMany(mappedBy = "students")
-    private List<Group> groups;
+    private List<LearnGroup> groups;
 
-    public List<Group> getGroups() {
+    public List<LearnGroup> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<Group> groups) {
+    public void setGroups(List<LearnGroup> groups) {
         this.groups = groups;
     }
 
