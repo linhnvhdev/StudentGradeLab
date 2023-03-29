@@ -23,7 +23,7 @@
                 <a href="/admin/admin-student-list">View Students</a>
             </button>
             <button>
-                <a href="/admin/admin-student-list">View Teachers</a>
+                <a href="/admin/admin-lecturer-list">View Teachers</a>
             </button>
             <button>
                 <a href="/admin/admin-grades-list">View Grades</a>

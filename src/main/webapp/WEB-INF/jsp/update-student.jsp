@@ -51,7 +51,7 @@
                 <input type="hidden"  value="${stud.user.code}"  name="code" />
                 Pass : <input type="text"  value="${stud.user.password}"  name="pass" />
                 <br />
-                <input name="submit" value="Create" type="submit" />
+                <input name="submit" value="Update" type="submit" />
             </form>
         </body>
     </html>
