@@ -2,41 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.demo2;
+package com.example.demo2.Model;
 
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author loidinhcap
  */
 @Entity
-public class Curriculum {
+public class Course {
     @Id
     private int id;
     
     private String name;
+    private String shortname;
+    private int credit;
     
-    @OneToOne
-    @JoinColumn(name = "dept_id", referencedColumnName = "id")
-    private Dept dept;
-    
-    @OneToMany(mappedBy = "curriculum")
+    @OneToMany(mappedBy = "course")
     private List<Curriculum_Course> curriculemCourse;
-
-    public List<Curriculum_Course> getCurriculemCourse() {
-        return curriculemCourse;
-    }
-
-    public void setCurriculemCourse(List<Curriculum_Course> curriculemCourse) {
-        this.curriculemCourse = curriculemCourse;
-    }
+    
 
     public int getId() {
         return id;
@@ -54,12 +42,20 @@ public class Curriculum {
         this.name = name;
     }
 
-    public Dept getDept() {
-        return dept;
+    public String getShortname() {
+        return shortname;
     }
 
-    public void setDept(Dept dept) {
-        this.dept = dept;
+    public void setShortname(String shortname) {
+        this.shortname = shortname;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
     
 }
