@@ -4,10 +4,10 @@
  */
 package com.example.demo2.Controller;
 
-import com.example.demo2.DAO.CourseGradeTypeRepository;
-import com.example.demo2.DAO.CourseRepository;
-import com.example.demo2.DAO.GradeRepository;
-import com.example.demo2.DAO.GroupGradeRepository;
+import com.example.demo2.Repository.CourseGradeTypeRepository;
+import com.example.demo2.Repository.CourseRepository;
+import com.example.demo2.Repository.GradeRepository;
+import com.example.demo2.Repository.GroupGradeRepository;
 import com.example.demo2.Model.Course;
 import com.example.demo2.Model.CourseGradeType;
 import com.example.demo2.Model.CourseGradeType_Id;
