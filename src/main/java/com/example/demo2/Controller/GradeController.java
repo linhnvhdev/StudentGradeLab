@@ -128,6 +128,14 @@ public class GradeController {
         return "redirect:group?id=1";
     }
     
+    @RequestMapping(path = "/grade/groups",method=RequestMethod.GET)
+    public String GetAllGroup(Model model) {
+        List<LearnGroup> groups =  groupRepository.findAll();
+        model.addAttribute("groups",groups);
+        //gradeRepository.saveAll(gradeList.getGrades);
+        return "Grade/groups";
+    }
+    
     @RequestMapping(path = "/grade/type", method=RequestMethod.GET)
     public String GetGradeType(Model model, @RequestParam("id") int courseId)
     {
