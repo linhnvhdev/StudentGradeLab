@@ -41,8 +41,20 @@ public class Grade {
     @JoinColumn(name = "course_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Course course;
     
-    private float weight;
     private float value;
+
+    public Grade() {
+    }
+    
+    
+
+    public Grade(int student_id, int semester_id, int course_id, String grade_type, float value) {
+        this.student_id = student_id;
+        this.semester_id = semester_id;
+        this.course_id = course_id;
+        this.grade_type = grade_type;
+        this.value = value;
+    }
 
     public int getStudent_id() {
         return student_id;
@@ -90,14 +102,6 @@ public class Grade {
 
     public void setCourse(Course course) {
         this.course = course;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
     }
 
     public float getValue() {
