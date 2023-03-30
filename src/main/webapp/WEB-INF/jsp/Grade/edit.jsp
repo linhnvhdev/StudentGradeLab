@@ -24,6 +24,7 @@
         <h1>${group.name} Grade</h1>
         <c:set var="index" value="0" />
         <form:form method="post" action="save" modelAttribute="gradeList">
+            <input type="hidden" name="groupId" value="${group.id}"><!-- comment -->
             <table border="true">
                 <tr>
                     <th>Students</th>

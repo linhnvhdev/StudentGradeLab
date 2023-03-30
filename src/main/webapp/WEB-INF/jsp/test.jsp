@@ -20,6 +20,7 @@
         </head>
         <body>
             <h1>Hello World ${test}</h1>
+            <h3>${result}</h3>
         </body>
     </html>
 </f:view>

@@ -24,6 +24,8 @@
                 <c:forEach items="${gradeTypes}" var="gradeType">
                 <th>${gradeType.grade_type}</th>
                 </c:forEach>
+                <th>Average grade</th>
+                <th>Status</th>
             </tr>
             <c:forEach items="${studentGrades.keySet()}" var="student">
             <tr>
@@ -31,6 +33,8 @@
                 <c:forEach items="${studentGrades.get(student)}" var="grade">
                 <td>${grade.value}</td>
                 </c:forEach>
+                <td>${averageGrades.get(student)}</td>
+                <td>${isPass.get(student)}</td>
             </tr>
             </c:forEach>
         </table>

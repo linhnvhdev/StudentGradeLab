@@ -16,6 +16,7 @@ import com.example.demo2.Model.GradeList;
 import com.example.demo2.Model.Grade_Id;
 import com.example.demo2.Model.LearnGroup;
 import com.example.demo2.Model.Student;
+import com.example.demo2.Service.GradeCalculatingService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,10 +45,14 @@ public class GradeController {
     
     @Autowired
     private CourseRepository CourseRepository;
+    
+    @Autowired
+    private GradeCalculatingService gradeService;
 
     @RequestMapping(path = "grade/edit")
     public String GetEditGroupGrade(Model model, @RequestParam("id") int groupId) {
         HashMap<Student, List<Grade>> studentGrades = new HashMap<>();
+        HashMap<Student, Float> averageGrades = new HashMap<>();
         LearnGroup group = groupRepository.findById(groupId).get();
         List<Student> students = group.getStudents();
         List<CourseGradeType> gradeTypes = courseGradeTypeRepository
@@ -75,17 +80,21 @@ public class GradeController {
             }
             studentGrades.put(s, grades);
             gradesList.getGrades().addAll(grades);
+            averageGrades.put(s, gradeService.AverageGradeStudentCourse(s.getId(), group.getCourse().getId()));
         }
         model.addAttribute("studentGrades", studentGrades);
         model.addAttribute("group", group);
         model.addAttribute("gradeTypes", gradeTypes);
         model.addAttribute("gradeList", gradesList);
+        model.addAttribute("averageGrades", averageGrades);
         return "Grade/edit";
     }
 
     @RequestMapping(path = "grade/group")
     public String GetGroupGrade(Model model, @RequestParam("id") int groupId) {
         HashMap<Student, List<Grade>> studentGrades = new HashMap<>();
+        HashMap<Student, Float> averageGrades = new HashMap<>();
+        HashMap<Student, Boolean> isPass = new HashMap<>();
         LearnGroup group = groupRepository.findById(groupId).get();
         List<Student> students = group.getStudents();
         List<CourseGradeType> gradeTypes = courseGradeTypeRepository
@@ -111,21 +120,25 @@ public class GradeController {
                 }
             }
             studentGrades.put(s, grades);
+            averageGrades.put(s, gradeService.AverageGradeStudentCourse(s.getId(), group.getCourse().getId()));
+            isPass.put(s,gradeService.IsPassCourse(s.getId(), group.getCourse().getId()));
         }
         
         model.addAttribute("studentGrades", studentGrades);
         model.addAttribute("group", group);
         model.addAttribute("gradeTypes", gradeTypes);
-        
+        model.addAttribute("averageGrades", averageGrades);
+        model.addAttribute("isPass", isPass);
         return "Grade/index";
     }
 
     @RequestMapping(path = "/grade/save",method=RequestMethod.POST)
-    public String SaveGrade(@ModelAttribute("gradeList") GradeList grades) {
+    public String SaveGrade(@ModelAttribute("gradeList") GradeList grades
+            ,@RequestParam("groupId") int groupId) {
         List<Grade> gradesList = grades.getGrades();
         gradeRepository.saveAll(grades.getGrades());
         //gradeRepository.saveAll(gradeList.getGrades);
-        return "redirect:group?id=1";
+        return "redirect:group?id="+groupId;
     }
     
     @RequestMapping(path = "/grade/groups",method=RequestMethod.GET)
