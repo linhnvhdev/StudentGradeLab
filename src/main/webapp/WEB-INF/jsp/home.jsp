@@ -16,8 +16,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        ${user.code}<br><!-- comment -->
-        ${user.password}<br><!-- comment -->
-        ${user.role.id}
+        <a href="logout">Logout</a>
     </body>
 </html>
