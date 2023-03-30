@@ -5,7 +5,7 @@
 package com.example.demo2.Controller;
 
 import com.example.demo2.Model.User;
-import com.example.demo2.dao.UserRepository;
+import com.example.demo2.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
