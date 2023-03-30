@@ -139,8 +139,8 @@ public class StudentAdminController {
         student.setTerm(term);
         User studentUser = userRepository.findById(student.getUser().getCode()).get();
         studentUser.setPassword(pass);
-        //userRepository.save(studentUser);
-        //studentRepository.save(student);
+        userRepository.save(studentUser);
+        studentRepository.save(student);
         return "redirect:/admin/admin-student-list";
     }
 }

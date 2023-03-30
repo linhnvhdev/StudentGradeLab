@@ -112,8 +112,8 @@ public class LecturerAdminController {
 
         User lecturerUser = userRepository.findById(lecturer.getUser().getCode()).get();
         lecturerUser.setPassword(pass);
-        //userRepository.save(studentUser);
-        //studentRepository.save(student);
+        userRepository.save(lecturerUser);
+        lecturerRepository.save(lecturer);
         return "redirect:/admin/admin-lecturer-list";
     }
 }

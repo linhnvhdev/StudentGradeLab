@@ -19,8 +19,8 @@
         </head>
         <body>
             <h1>Update Lecturer</h1>
-            <form action="/admin/admin-lecturer-list/create" method="post">
-                <input type="hidden"  value="${lec.id}"  name="sid" />
+            <form action="/admin/admin-lecturer-list/edit" method="post">
+                <input type="hidden"  value="${lec.id}"  name="lid" />
                 Name : <input type="text"  value="${lec.name}"  name="name" />
                 <br />
                 Dob : <input type="Date"  value="${lec.dob}"  name="dob" />

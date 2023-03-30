@@ -19,7 +19,7 @@
         </head>
         <body>
             <h1>Update Student</h1>
-            <form action="/admin/admin-student-list/create" method="post">
+            <form action="/admin/admin-student-list/edit" method="post">
                 <input type="hidden"  value="${stud.id}"  name="sid" />
                 Name : <input type="text"  value="${stud.name}"  name="name" />
                 <br />
