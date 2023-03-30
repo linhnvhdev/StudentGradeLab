@@ -30,6 +30,14 @@ public class Curriculum {
     @OneToMany(mappedBy = "curriculum")
     private List<Curriculum_Course> curriculemCourse;
 
+    public List<Curriculum_Course> getCurriculemCourse() {
+        return curriculemCourse;
+    }
+
+    public void setCurriculemCourse(List<Curriculum_Course> curriculemCourse) {
+        this.curriculemCourse = curriculemCourse;
+    }
+
     public int getId() {
         return id;
     }
