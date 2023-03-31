@@ -16,14 +16,22 @@ import com.example.demo2.Model.GradeList;
 import com.example.demo2.Model.Grade_Id;
 import com.example.demo2.Model.LearnGroup;
 import com.example.demo2.Model.Student;
+import com.example.demo2.Model.User;
+import com.example.demo2.Service.ExcelExporter;
 import com.example.demo2.Service.GradeCalculatingService;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -95,10 +103,76 @@ public class GradeController {
         HashMap<Student, List<Grade>> studentGrades = new HashMap<>();
         HashMap<Student, Float> averageGrades = new HashMap<>();
         HashMap<Student, Boolean> isPass = new HashMap<>();
+        
         LearnGroup group = groupRepository.findById(groupId).get();
-        List<Student> students = group.getStudents();
         List<CourseGradeType> gradeTypes = courseGradeTypeRepository
                 .findByCourse_id(group.getCourse().getId());
+        GetGroupGradeReport(studentGrades, averageGrades, isPass, group,gradeTypes);
+        
+        model.addAttribute("studentGrades", studentGrades);
+        model.addAttribute("group", group);
+        model.addAttribute("gradeTypes", gradeTypes);
+        model.addAttribute("averageGrades", averageGrades);
+        model.addAttribute("isPass", isPass);
+        return "Grade/index";
+    }
+    
+    @GetMapping("/grade/group/excel")
+    public void exportIntoExcel(HttpServletResponse response, @RequestParam("groupId") int groupId) throws IOException {
+
+        List<String> headers = new ArrayList<>();
+        List<String> recordStrings = new ArrayList();
+        
+        HashMap<Student, List<Grade>> studentGrades = new HashMap<>();
+        HashMap<Student, Float> averageGrades = new HashMap<>();
+        HashMap<Student, Boolean> isPass = new HashMap<>();
+        
+        LearnGroup group = groupRepository.findById(groupId).get();
+        List<CourseGradeType> gradeTypes = courseGradeTypeRepository
+                .findByCourse_id(group.getCourse().getId());
+        GetGroupGradeReport(studentGrades, averageGrades, isPass, group,gradeTypes);
+        
+        
+        headers.add("Students");
+        for(CourseGradeType gradeType : gradeTypes){
+            headers.add(gradeType.getGrade_type());
+        }
+        headers.add("Average Grade");
+        headers.add("Status");
+        
+        for(Student s : studentGrades.keySet())
+        {
+            String recordString = "";
+            recordString += s.getName()+";";
+            for(Grade grade : studentGrades.get(s)){
+                recordString += grade.getValue()+";";
+            }
+            recordString += averageGrades.get(s)+";";
+            recordString += (isPass.get(s) ? "Pass" : "Not pass") +";";
+            recordStrings.add(recordString);
+        }
+        
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename="+group.getName()+"_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        
+        
+        ExcelExporter generator = new ExcelExporter(headers,recordStrings);
+
+        generator.generate(response);
+    }
+    
+    public void GetGroupGradeReport(HashMap<Student, List<Grade>> studentGrades
+                                    ,HashMap<Student, Float> averageGrades
+                                    ,HashMap<Student, Boolean> isPass
+                                    ,LearnGroup group
+                                    ,List<CourseGradeType> gradeTypes){
+        List<Student> students = group.getStudents();
+        
         for (Student s : students) {
             List<Grade> grades = new ArrayList<Grade>();
 
@@ -123,13 +197,6 @@ public class GradeController {
             averageGrades.put(s, gradeService.AverageGradeStudentCourse(s.getId(), group.getCourse().getId()));
             isPass.put(s,gradeService.IsPassCourse(s.getId(), group.getCourse().getId()));
         }
-        
-        model.addAttribute("studentGrades", studentGrades);
-        model.addAttribute("group", group);
-        model.addAttribute("gradeTypes", gradeTypes);
-        model.addAttribute("averageGrades", averageGrades);
-        model.addAttribute("isPass", isPass);
-        return "Grade/index";
     }
 
     @RequestMapping(path = "/grade/save",method=RequestMethod.POST)
