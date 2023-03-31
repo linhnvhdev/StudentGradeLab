@@ -18,6 +18,9 @@
     </head>
     <body>
         <h1>${group.name} Grade</h1>
+        <button>
+            <a href="/grade/group/excel?groupId=${group.id}">Export to excel</a>
+        </button>
         <table border="true">
             <tr>
                 <th>Students</th>
@@ -34,7 +37,7 @@
                 <td>${grade.value}</td>
                 </c:forEach>
                 <td>${averageGrades.get(student)}</td>
-                <td>${isPass.get(student)}</td>
+                <td>${isPass.get(student) ? "Pass" : "Not pass"}</td>
             </tr>
             </c:forEach>
         </table>
