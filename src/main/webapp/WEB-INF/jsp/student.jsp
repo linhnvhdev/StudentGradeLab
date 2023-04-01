@@ -20,7 +20,7 @@
         </head>
         <body>
             <button>
-                <a href="viewgrade">View Grade</a>
+                <a href="/student/viewgrade">View Grade</a>
             </button>
         </body>
     </html>
