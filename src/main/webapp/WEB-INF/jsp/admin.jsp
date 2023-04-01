@@ -16,21 +16,47 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>JSP Page</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         </head>
         <body>
-            <button>
-                <a href="/admin/admin-student-list">View Students</a>
-            </button>
-            <button>
-                <a href="/admin/admin-lecturer-list">View Teachers</a>
-            </button>
-            <button>
-                <a href="/admin/admin-grades-list">View Grades</a>
-            </button>
-            <button>
-                <a href="/admin/admin-classes-list">View Classes</a>
-            </button>
+            <div class="container">
+                <blockquote class="blockquote-reverse">
+                    <h1>Welcome admin!</h1>
+                </blockquote>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <div class="container" style="background-color: darkorange">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button class="btn btn-block text-center" style="background-color: darkorange">
+                            <h4>   <a href="/admin/admin-student-list" class="text-center">View Students</a></h4>
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-block text-center" style="background-color: darkorange">
+                            <h4>   <a href="/admin/admin-lecturer-list" class="text-center">View Teachers</a></h4>
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-block text-center" style="background-color: darkorange">
+                            <h4>   <a href="/admin/admin-grades-list" class="text-center">View Grades</a></h4>
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-block text-center" style="background-color: darkorange">
+                            <h4>    <a href="/admin/admin-classes-list" class="text-center">View Classes</a></h4>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </body>
+
+
     </html>
 </f:view>
