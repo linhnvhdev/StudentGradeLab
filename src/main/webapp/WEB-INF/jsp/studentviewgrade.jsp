@@ -21,37 +21,37 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
         </head>
         <body>
-            <div class="vh-100 d-flex justify-content-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <c:forEach items="${semesters}" var="semester">
-                                <c:if test="${semId ne semester.id}">
-                                    <a class="btn btn-primary btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
-                                </c:if>
-                                <c:if test="${semId eq semester.id}">
-                                    <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
-                                </c:if>
-                            </c:forEach>
-                            <div class="mt-4"><!-- comment --></div>
-                            <c:forEach items="${courses}" var="course">
-                                <c:if test="${courseId ne course.id}">
-                                    <a class="btn btn-warning btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
-                                </c:if>
-                                <c:if test="${courseId eq course.id}">
-                                    <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
-                                </c:if>
-                            </c:forEach>
+            <div class="container">
+                <div class="vh-100 d-flex justify-content-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <c:forEach items="${semesters}" var="semester">
+                                    <c:if test="${semId ne semester.id}">
+                                        <a class="btn btn-primary btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
+                                    </c:if>
+                                    <c:if test="${semId eq semester.id}">
+                                        <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
+                                    </c:if>
+                                </c:forEach>
+                                <div class="mt-4"><!-- comment --></div>
+                                <c:forEach items="${courses}" var="course">
+                                    <c:if test="${courseId ne course.id}">
+                                        <a class="btn btn-warning btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
+                                    </c:if>
+                                    <c:if test="${courseId eq course.id}">
+                                        <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <table border="true">
-                            <tr>
+                        <table class="table" border="true">
+                            <tr class="warning">
                                 <th>Grade Type</th>
                                 <th>Grade</th>
                             </tr>
                             <c:forEach items="${grades.keySet()}" var="grade">
-                                <tr>
+                                <tr class="active">
                                     <td>${grade.grade_type}</td>
                                     <td>${grades.get(grade).value}</td>
                                 </tr>
