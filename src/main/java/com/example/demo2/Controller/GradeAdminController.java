@@ -13,6 +13,7 @@ import com.example.demo2.Model.Student;
 import com.example.demo2.Model.StudentAverageGrade;
 import com.example.demo2.Model.StudentSemesterCourse;
 import com.example.demo2.Model.User;
+import com.example.demo2.Repository.CourseRepository;
 import com.example.demo2.Repository.CurriculumRepository;
 import com.example.demo2.Repository.GradeRepository;
 import com.example.demo2.Repository.MajorRepository;
@@ -60,6 +61,9 @@ public class GradeAdminController {
     private CurriculumRepository curriculumRepository;
     @Autowired
     private GradeCalculatingService service;
+    
+    @Autowired
+    private CourseRepository courseRepository;
 
     @RequestMapping(value = "/admin/admin-grades-list", method = RequestMethod.GET)
     public String getGradesList(
@@ -226,5 +230,12 @@ public class GradeAdminController {
         ExcelExporter generator = new ExcelExporter(headers, recordStrings);
 
         generator.generate(response);
+    }
+    
+    @RequestMapping(value = "/admin/admin-course-list", method = RequestMethod.GET)
+    public String getCourseList(Model model) {
+        List<Course> courses = courseRepository.findAll();
+        model.addAttribute("courses",courses);
+        return "admin-course-list";
     }
 }

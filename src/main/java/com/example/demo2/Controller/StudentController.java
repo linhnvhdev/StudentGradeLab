@@ -12,6 +12,7 @@ import com.example.demo2.Model.Grade;
 import com.example.demo2.Model.Grade_Id;
 import com.example.demo2.Model.Semester;
 import com.example.demo2.Model.Student;
+import com.example.demo2.Model.User;
 import com.example.demo2.Repository.CourseGradeTypeRepository;
 import com.example.demo2.Repository.CurriculumRepository;
 import com.example.demo2.Repository.GradeRepository;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,15 +56,24 @@ public class StudentController {
     private GradeCalculatingService gradeService;
     
     @GetMapping("/student")
-    public String home(){
+    public String home(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 3){
+            return "redirect:/login";
+        }
         return "student";
     }
     
     @GetMapping("/student/viewgrade")
     public String viewGrade(Model model, 
             @RequestParam(name = "sem", defaultValue = "-1") int semid,
-            @RequestParam(name = "courseId", defaultValue = "-1") int courseId){
-        int stuid = 1;
+            @RequestParam(name = "courseId", defaultValue = "-1") int courseId,
+            HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 3){
+            return "redirect:/login";
+        }
+        int stuid = user.getStudent().getId();
         
         List<Semester> semesters = SemesterRepository.findAll();
         Student student = StudentRepository.findById(stuid).get();
@@ -119,8 +130,13 @@ public class StudentController {
     }
     
     @GetMapping("/student/transcript")
-    public String viewGrade(Model model){
-        int stuid = 1;
+    public String viewGrade(Model model,HttpServletRequest request){
+        
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 3){
+            return "redirect:/login";
+        }
+        int stuid = user.getStudent().getId();
         Student student = StudentRepository.findById(stuid).get();
         Curriculum curriculum = CurriculumRepository.findById(student.getCurriculum().getId()).get();
         

@@ -29,6 +29,7 @@
         <br/>
         <br/>
         <br/>
+        <a href="/admin">Back</a> 
         <table border="true" class="table">
             <tr class="warning">
                 <th>Grade Type</th>

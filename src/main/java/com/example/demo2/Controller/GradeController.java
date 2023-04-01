@@ -63,7 +63,11 @@ public class GradeController {
     private GradeCalculatingService gradeService;
 
     @RequestMapping(path = "grade/edit")
-    public String GetEditGroupGrade(Model model, @RequestParam("id") int groupId) {
+    public String GetEditGroupGrade(Model model, @RequestParam("id") int groupId,HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         HashMap<Student, List<Grade>> studentGrades = new HashMap<>();
         HashMap<Student, Float> averageGrades = new HashMap<>();
         LearnGroup group = groupRepository.findById(groupId).get();
@@ -104,7 +108,11 @@ public class GradeController {
     }
 
     @RequestMapping(path = "grade/group")
-    public String GetGroupGrade(Model model, @RequestParam("id") int groupId) {
+    public String GetGroupGrade(Model model, @RequestParam("id") int groupId,HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         HashMap<Student, List<Grade>> studentGrades = new HashMap<>();
         HashMap<Student, Float> averageGrades = new HashMap<>();
         HashMap<Student, Boolean> isPass = new HashMap<>();
@@ -123,8 +131,11 @@ public class GradeController {
     }
     
     @GetMapping("/grade/group/excel")
-    public void exportIntoExcel(HttpServletResponse response, @RequestParam("groupId") int groupId) throws IOException {
-
+    public void exportIntoExcel(HttpServletResponse response, @RequestParam("groupId") int groupId,HttpServletRequest request) throws IOException {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            response.sendRedirect("/login");
+        }
         List<String> headers = new ArrayList<>();
         List<String> recordStrings = new ArrayList();
         
@@ -206,7 +217,11 @@ public class GradeController {
 
     @RequestMapping(path = "/grade/save",method=RequestMethod.POST)
     public String SaveGrade(@ModelAttribute("gradeList") GradeList grades
-            ,@RequestParam("groupId") int groupId) {
+            ,@RequestParam("groupId") int groupId,HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         List<Grade> gradesList = grades.getGrades();
         gradeRepository.saveAll(grades.getGrades());
         //gradeRepository.saveAll(gradeList.getGrades);
@@ -247,8 +262,12 @@ public class GradeController {
     }
     
     @RequestMapping(path = "/grade/type", method=RequestMethod.GET)
-    public String GetGradeType(Model model, @RequestParam("id") int courseId)
+    public String GetGradeType(Model model, @RequestParam("id") int courseId,HttpServletRequest request)
     {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 1){
+            return "redirect:/login";
+        }
         List<CourseGradeType> gradeTypes = courseGradeTypeRepository.findByCourse_id(courseId);
         model.addAttribute("gradeTypes", gradeTypes);
         Course course = CourseRepository.findById(courseId).get();
@@ -257,8 +276,12 @@ public class GradeController {
     }
     
     @RequestMapping(path = "/grade/addType", method=RequestMethod.GET)
-    public String GetAddGradeType(Model model, @RequestParam("id") int courseId)
+    public String GetAddGradeType(Model model, @RequestParam("id") int courseId,HttpServletRequest request)
     {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 1){
+            return "redirect:/login";
+        }
         model.addAttribute("courseId",courseId);
         return "Grade/addType";
     }
@@ -267,8 +290,12 @@ public class GradeController {
     public String AddGradeType(Model model, @RequestParam("courseId") int courseId,
                                             @RequestParam("gradeType") String gradeType,
                                             @RequestParam("weight") float weight,
-                                            @RequestParam("failScore") float failScore)
+                                            @RequestParam("failScore") float failScore,HttpServletRequest request)
     {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         CourseGradeType type = new CourseGradeType();
         type.setCourse_id(courseId);
         type.setGrade_type(gradeType);
@@ -280,8 +307,12 @@ public class GradeController {
     
     @RequestMapping(path = "/grade/deleteType", method=RequestMethod.GET)
     public String DeleteGradeType(Model model, @RequestParam("id") int courseId,
-                                            @RequestParam("type") String gradeType)
+                                            @RequestParam("type") String gradeType,HttpServletRequest request)
     {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         CourseGradeType_Id type = new CourseGradeType_Id();
         type.setCourseId(courseId);
         type.setGrade_type(gradeType);
@@ -291,8 +322,12 @@ public class GradeController {
     
     @RequestMapping(path = "/grade/editType", method=RequestMethod.GET)
     public String GetEditGradeType(Model model, @RequestParam("id") int courseId,
-                                               @RequestParam("type") String gradeType)
+                                               @RequestParam("type") String gradeType,HttpServletRequest request)
     {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         CourseGradeType_Id typeId = new CourseGradeType_Id();
         typeId.setCourseId(courseId);
         typeId.setGrade_type(gradeType);
@@ -309,8 +344,12 @@ public class GradeController {
                                             @RequestParam("gradeType") String gradeType,
                                             @RequestParam("oldGradeType") String oldGradeType,
                                             @RequestParam("weight") float weight,
-                                            @RequestParam("failScore") float failScore)
+                                            @RequestParam("failScore") float failScore,HttpServletRequest request)
     {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
         CourseGradeType type = new CourseGradeType();
         type.setCourse_id(courseId);
         type.setGrade_type(gradeType);

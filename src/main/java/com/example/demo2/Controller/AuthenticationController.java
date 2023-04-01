@@ -40,7 +40,22 @@ public class AuthenticationController {
         User userDb = userRepository.findById(user.getCode()).get();
         if(userDb.getPassword().equals(user.getPassword())){
             request.getSession().setAttribute("user", userDb);
+            // Student
+            if(userDb.getRole().getId() == 1)
+            {
+                return "redirect:/admin";
+            }
+            else if(userDb.getRole().getId() == 2)
+            {
+                return "redirect:/grade/groups";
+            }
+            else if(userDb.getRole().getId() == 3)
+            {
+                return "redirect:/student";
+            }
             return "home";
+            
+            
         }else{
             model.addAttribute("error", "Please check your username and password!");
             return "login";
