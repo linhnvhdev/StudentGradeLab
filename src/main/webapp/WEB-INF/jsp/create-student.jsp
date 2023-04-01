@@ -15,37 +15,55 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>JSP Page</title>
         </head>
         <body>
-            <h1>Create Student</h1>
-            <form action="/admin/admin-student-list/create" method="post">
-                Name : <input type="text"  value=""  name="name" />
-                <br />
-                Dob : <input type="Date"  value=""  name="dob" />
-                <br />
-                Gender : <input type="radio" name="gender" value="male"/>Male  <input type="radio" name="gender" value="female"/>Female
-                <br/>
-                Curriculum : <select name="curriculum">
-                    <c:forEach items="${curriculums}" var="cur">
-                        <option value="${cur.id}">${cur.name}</option>
-                    </c:forEach>
-                </select>
-                <br/>
-                Semester : <select name="semester">
-                    <c:forEach items="${semesters}" var="sem">
-                        <option value="${sem.id}">${sem.name}</option>
-                    </c:forEach>
-                </select>
-                <br/>
-                Term : <input type="text"  value=""  name="term" />
-                <br />
-                Code : <input type="text"  value=""  name="code" />
-                <br />
-                Pass : <input type="text"  value=""  name="pass" />
-                <br />
-                <input name="submit" value="Create" type="submit" />
-            </form>
+            <div class="container">
+                <h1>Create new Student</h1>
+                <button class="btn btn-warning"><a href="../">Back</a></button>
+                <font size="+2">
+                    <form action="/admin/admin-student-list/create" method="post">
+                        <div class="form-group">
+                            Name : <input class="form-control" type="text"  value=""  name="name" />
+                        </div>
+                        <div class="form-group">
+                            Dob : <input class="form-control" type="Date"  value=""  name="dob" />
+                        </div>
+                        <div class="form-group">
+                            Gender : <input type="radio" name="gender" value="male"/>Male  <input type="radio" name="gender" value="female"/>Female
+                        </div>
+                        <div class="form-group">
+                            Curriculum : <select name="curriculum">
+                                <c:forEach items="${curriculums}" var="cur">
+                                    <option value="${cur.id}">${cur.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            Semester : <select name="semester">
+                                <c:forEach items="${semesters}" var="sem">
+                                    <option value="${sem.id}">${sem.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            Term : <input class="form-control" type="text"  value=""  name="term" />
+                        </div>
+                        <div class="form-group">
+                            Code : <input class="form-control" type="text"  value=""  name="code" />
+                        </div>
+                        <div class="form-group">
+                            Pass : <input class="form-control" type="text"  value=""  name="pass" />
+                        </div>
+
+                        <input class="btn btn-success" name="submit" value="Create" type="submit" />
+                    </form>
+                </font>
+            </div>
         </body>
     </html>
 </f:view>
