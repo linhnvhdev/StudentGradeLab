@@ -15,6 +15,7 @@ import com.example.demo2.Model.Grade;
 import com.example.demo2.Model.GradeList;
 import com.example.demo2.Model.Grade_Id;
 import com.example.demo2.Model.LearnGroup;
+import com.example.demo2.Model.Semester;
 import com.example.demo2.Model.Student;
 import com.example.demo2.Model.User;
 import com.example.demo2.Service.ExcelExporter;
@@ -25,8 +26,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,7 +75,7 @@ public class GradeController {
             Grade_Id id = new Grade_Id();
             id.setStudent_id(s.getId());
             id.setCourse_id(group.getCourse().getId());
-            id.setSemester_id(s.getSemester().getId());
+            id.setSemester_id(group.getSemester().getId());
 
             for (CourseGradeType t : gradeTypes) {
                 id.setGrade_type(t.getGrade_type());
@@ -179,7 +182,7 @@ public class GradeController {
             Grade_Id id = new Grade_Id();
             id.setStudent_id(s.getId());
             id.setCourse_id(group.getCourse().getId());
-            id.setSemester_id(s.getSemester().getId());
+            id.setSemester_id(group.getSemester().getId());
 
             for (CourseGradeType t : gradeTypes) {
                 id.setGrade_type(t.getGrade_type());
@@ -209,9 +212,29 @@ public class GradeController {
     }
     
     @RequestMapping(path = "/grade/groups",method=RequestMethod.GET)
-    public String GetAllGroup(Model model) {
+    public String GetAllGroup(Model model, @RequestParam(name = "semesterId", defaultValue = "-1") int semesterId) {
         List<LearnGroup> groups =  groupRepository.findAll();
+        HashSet<Semester> semesters = new HashSet<>();
+        
+        
+        for(LearnGroup group : groups){
+            semesters.add(group.getSemester());
+        }
+        
+        if(semesterId != -1){
+            List<LearnGroup> groups2 = new ArrayList<>();
+            for(int i = 0;i < groups.size();i++){
+                if(groups.get(i).getSemester().getId() == semesterId)
+                    groups2.add(groups.get(i));
+            }
+            groups = groups2;
+        }
+        
+        List<Semester> semesterList = new ArrayList<>();
+        semesterList.addAll(semesters);
+        
         model.addAttribute("groups",groups);
+        model.addAttribute("semesters",semesterList);
         //gradeRepository.saveAll(gradeList.getGrades);
         return "Grade/groups";
     }

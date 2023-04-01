@@ -26,23 +26,37 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <c:forEach items="${semesters}" var="semester">
-                                <c:if test="${sem ne semester.id}">
-                                    <a class="btn btn-primary btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.description}</a>
+                                <c:if test="${semId ne semester.id}">
+                                    <a class="btn btn-primary btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
                                 </c:if>
-                                <c:if test="${sem eq semester.id}">
-                                    <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.description}</a>
+                                <c:if test="${semId eq semester.id}">
+                                    <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
                                 </c:if>
                             </c:forEach>
                             <div class="mt-4"><!-- comment --></div>
                             <c:forEach items="${courses}" var="course">
-                                <c:if test="${couid ne course.id}">
-                                    <a class="btn btn-warning btn-lg m-4" href="#">${course.shortname}</a>
+                                <c:if test="${courseId ne course.id}">
+                                    <a class="btn btn-warning btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
                                 </c:if>
-                                <c:if test="${couid eq course.id}">
-                                    <a class="btn btn-dark btn-lg m-4" href="#">${course.shortname}</a>
+                                <c:if test="${courseId eq course.id}">
+                                    <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
                                 </c:if>
                             </c:forEach>
                         </div>
+                    </div>
+                    <div class="row">
+                        <table border="true">
+                            <tr>
+                                <th>Grade Type</th>
+                                <th>Grade</th>
+                            </tr>
+                            <c:forEach items="${grades.keySet()}" var="grade">
+                                <tr>
+                                    <td>${grade.grade_type}</td>
+                                    <td>${grades.get(grade).value}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>
             </div>

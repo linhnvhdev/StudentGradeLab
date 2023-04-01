@@ -67,6 +67,8 @@ public class GradeCalculatingService {
             }
         }
         
+        if(totalCredit == 0) return 0;
+        
         return averageGrade = averageGrade /  totalCredit;
     }
     

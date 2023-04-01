@@ -18,6 +18,12 @@
         <title>Groups</title>
     </head>
     <body>
+        <h1>Semesters</h1>
+        <c:forEach items="${semesters}" var="semester">
+            <a href="/grade/groups?semesterId=${semester.id}">
+              ${semester.name}
+            </a>
+        </c:forEach>
         <h1>My Groups</h1>
         <c:forEach items="${groups}" var="group">
             <div>

@@ -32,6 +32,10 @@ public class LearnGroup {
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
     private Lecturer lecturer;
     
+    @ManyToOne
+    @JoinColumn(name = "semester_id", referencedColumnName = "id")
+    private Semester semester;
+    
     @ManyToMany
     @JoinTable(name = "Group_Student",
             joinColumns = @JoinColumn(name = "group_id"),
@@ -77,6 +81,14 @@ public class LearnGroup {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public Semester getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Semester semester) {
+        this.semester = semester;
     }
     
     
