@@ -55,10 +55,25 @@
             </div>
             <br/>
             <br/>
-            <a href="/admin/admin-student-list/create">Create</a>
-            <a href="/admin">Back</a>
+
+            <div class="container text-center">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button class="btn btn-block text-center" style="background-color: gold">
+                        <a href="/admin/admin-student-list/create"><h4>Create new student</h4></a>
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-block text-center" style="background-color: gold">
+                        <a href="/admin"><h4>Back</h4></a>
+                    </button>
+                </div>
+                <br/>
+            </div>
+
             <br/>
-            
+            <br/>
+
             <div class="container">
                 <table border="5px" class="table">
                     <tr class="warning">
@@ -95,7 +110,7 @@
                     </c:forEach>
                 </table>
             </div>
-            
+
         </body>
     </html>
 </f:view>

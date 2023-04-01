@@ -16,20 +16,34 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>Edit Page</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
+            <div class="container">
+                <br/>
+                <br/>
+                <br/>
             <h1>Edit type</h1>
+            <br/>
+            <br/>
+            <br/>
+            <div class="form-group">
             <form method="post" action="editType">
-                <input type="hidden" name="courseId" value="${courseId}">
-                <input type="hidden" name="oldGradeType" value="${gradeType.grade_type}">
-                Grade Type: <input type="text" name="gradeType" value="${gradeType.grade_type}">
+                <input class="form-control" type="hidden" name="courseId" value="${courseId}">
+                <input class="form-control"  type="hidden" name="oldGradeType" value="${gradeType.grade_type}">
+                Grade Type: <input class="form-control"  type="text" name="gradeType" value="${gradeType.grade_type}">
                 <br><!-- comment -->
-                Weight: <input type="number" name="weight" step="any" value="${gradeType.weight}">
+                Weight: <input class="form-control"  type="number" name="weight" step="any" value="${gradeType.weight}">
                 <br><!-- comment -->
-                Fail Score: <input type="number" name="failScore" step="any" value="${gradeType.failScore}"> 
+                Fail Score: <input class="form-control"  type="number" name="failScore" step="any" value="${gradeType.failScore}"> 
                 <br><!-- comment -->
-                <input type="submit" value="Edit"><!-- comment -->
+                <input class="btn btn-warning" type="submit" value="Edit"><!-- comment -->
+                </div>
             </form>
+                </div>
         </body>
     </html>
 </f:view>

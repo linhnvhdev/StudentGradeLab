@@ -15,11 +15,22 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Grade Type</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <div class="container">
+            <br/>
+            <br/>
+            <br/>
         <h1>Course: ${course.name}</h1>
-        <table border="true">
-            <tr>
+        <br/>
+        <br/>
+        <br/>
+        <table border="true" class="table">
+            <tr class="warning">
                 <th>Grade Type</th>
                 <th>Weight</th>
                 <th>Fail score</th>
@@ -27,7 +38,7 @@
                 <th></th>
             </tr>
             <c:forEach items="${gradeTypes}" var="gradeType">
-                <tr>
+                <tr class="active">
                     <td>
                         ${gradeType.grade_type}
                     </td>
@@ -46,6 +57,7 @@
                 </tr>
             </c:forEach>
         </table>
-        <a href="/grade/addType?id=${course.id}">Add</a> 
+        <a class="btn btn-warning" href="/grade/addType?id=${course.id}">Add</a> 
+        </div>
     </body>
 </html>
