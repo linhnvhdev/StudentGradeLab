@@ -16,6 +16,7 @@ import com.example.demo2.Repository.StudentRepository;
 import com.example.demo2.Repository.UserRepository;
 import java.sql.Date;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,18 +43,30 @@ public class StudentAdminController {
     public SemesterRepository semesterRepository;
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String get(Model model) {
+    public String get(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         return "admin";
     }
 
     @RequestMapping(value = "/admin/admin-student-list", method = RequestMethod.GET)
-    public String getStudentList(Model model) {
+    public String getStudentList(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         model.addAttribute("stud", studentRepository.findAll());
         return "admin-student-list";
     }
 
     @RequestMapping(value = "/admin/admin-student-list/delete", method = RequestMethod.GET)
-    public String deleteStudent(@RequestParam("id") int id, Model model) {
+    public String deleteStudent(@RequestParam("id") int id, Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         Student s = studentRepository.findById(id).get();
         studentRepository.deleteById(id);
         userRepository.delete(s.getUser());
@@ -62,7 +75,11 @@ public class StudentAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-student-list/create", method = RequestMethod.GET)
-    public String createStudent(Model model) {
+    public String createStudent(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         model.addAttribute("curriculums", curriculumRepository.findAll());
         model.addAttribute("semesters", semesterRepository.findAll());
         return "create-student";
@@ -78,7 +95,12 @@ public class StudentAdminController {
             @RequestParam("term") int term,
             @RequestParam("code") String code,
             @RequestParam("pass") String pass,
-            Model model) {
+            Model model,
+            HttpServletRequest request) {
+        User userx = (User) request.getSession().getAttribute("user");
+        if (userx == null || userx.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         User user = new User();
         user.setCode(code);
         user.setPassword(pass);
@@ -105,7 +127,11 @@ public class StudentAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-student-list/edit", method = RequestMethod.GET)
-    public String editStudent(@RequestParam("id") int id, Model model) {
+    public String editStudent(@RequestParam("id") int id, Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         model.addAttribute("stud", studentRepository.getById(id));
         model.addAttribute("curriculums", curriculumRepository.findAll());
         model.addAttribute("semesters", semesterRepository.findAll());
@@ -123,7 +149,12 @@ public class StudentAdminController {
             @RequestParam("term") int term,
             @RequestParam("code") String code,
             @RequestParam("pass") String pass,
-            Model model) {
+            Model model,
+            HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         Curriculum studentCurriculum = curriculumRepository.findById(curriculum).get();
         Semester studentSemester = semesterRepository.findById(semester).get();
         Student student = studentRepository.findById(sid).get();

@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -66,7 +69,12 @@ public class GradeAdminController {
             @RequestParam(name = "s_sort", defaultValue = "0") int s_sort,
             @RequestParam(name = "g_sort", defaultValue = "none") String g_sort,
             @RequestParam(name = "m_sort", defaultValue = "0") int m_sort,
-            Model model) {
+            Model model,
+            HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         Map<StudentSemesterCourse, StudentAverageGrade> gradeMap = new HashMap<>();
         List<Grade> gradeList = gradeRepository.findAll();
         for (int i = 0; i < gradeList.size(); i++) {
@@ -137,7 +145,11 @@ public class GradeAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-grades-list/student", method = RequestMethod.GET)
-    public String getStudentGradesList(@RequestParam("id") int id, Model model) {
+    public String getStudentGradesList(@RequestParam("id") int id, Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         Student student = studentRepository.findById(id).get();
         Curriculum curriculum = curriculumRepository.findById(student.getCurriculum().getId()).get();
 
@@ -166,7 +178,12 @@ public class GradeAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-grades-list/export", method = RequestMethod.GET)
-    public void exportIntoExcel(HttpServletResponse response) throws IOException {
+    public void exportIntoExcel(HttpServletResponse response, HttpServletRequest request) throws IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            response.sendRedirect("/login");
+        }
+
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateTime = dateFormatter.format(new Date());
