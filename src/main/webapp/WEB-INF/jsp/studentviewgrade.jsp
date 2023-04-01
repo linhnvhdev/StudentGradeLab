@@ -17,35 +17,44 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>JSP Page</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
-            <div class="container">
-                <div class="vh-100 d-flex justify-content-center">
                     <div class="container">
+                        <br/>
+                        <br/>
+                        <br/>
                         <div class="row">
                             <div class="col-sm-12">
+                                <font size="+2">Semester: </font>
                                 <c:forEach items="${semesters}" var="semester">
                                     <c:if test="${semId ne semester.id}">
                                         <a class="btn btn-primary btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
                                     </c:if>
                                     <c:if test="${semId eq semester.id}">
-                                        <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
+                                        <a class="btn btn-info btn-lg m-4" href="viewgrade?sem=${semester.id}" role="button">${semester.name}</a>
                                     </c:if>
                                 </c:forEach>
+                                        <br/>
+                                        <br/>
                                 <div class="mt-4"><!-- comment --></div>
+                                <font size="+2">Course: </font>
                                 <c:forEach items="${courses}" var="course">
                                     <c:if test="${courseId ne course.id}">
                                         <a class="btn btn-warning btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
                                     </c:if>
                                     <c:if test="${courseId eq course.id}">
-                                        <a class="btn btn-dark btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
+                                        <a class="btn btn-info btn-lg m-4" href="viewgrade?sem=${semId}&courseId=${course.id}">${course.shortname}</a>
                                     </c:if>
                                 </c:forEach>
                             </div>
                         </div>
-                        <table class="table" border="true">
+                        <br/>
+                        <br/>
+                        <table class="table">
                             <tr class="warning">
                                 <th>Grade Type</th>
                                 <th>Grade</th>
@@ -58,8 +67,6 @@
                             </c:forEach>
                         </table>
                     </div>
-                </div>
-            </div>
         </body>
     </html>
 </f:view>
