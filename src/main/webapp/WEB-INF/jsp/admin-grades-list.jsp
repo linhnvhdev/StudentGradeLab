@@ -75,6 +75,9 @@
                     </tr>
                 </c:forEach>
             </table>
+            <button>
+                <a href="/admin/admin-grades-list/export">Export to excel</a>
+            </button>
             <a href="/admin">Back</a>
         </body>
     </html>

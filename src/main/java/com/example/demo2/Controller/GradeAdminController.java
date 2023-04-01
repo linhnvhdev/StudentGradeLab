@@ -14,6 +14,7 @@ import com.example.demo2.Repository.GradeRepository;
 import com.example.demo2.Repository.MajorRepository;
 import com.example.demo2.Repository.SemesterRepository;
 import com.example.demo2.Repository.StudentRepository;
+import com.example.demo2.Service.ExcelExporter;
 import com.example.demo2.Service.GradeCalculatingService;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -128,5 +130,69 @@ public class GradeAdminController {
     @RequestMapping(value = "/admin/admin-grades-list/student", method = RequestMethod.GET)
     public String getStudentGradesList() {
         return "admin-student-grades-list";
+    }
+
+    @RequestMapping(value = "/admin/admin-grades-list/export", method = RequestMethod.GET)
+    public void exportIntoExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=records_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<String> headers = new ArrayList<>();
+        List<String> recordStrings = new ArrayList();
+
+        headers.add("Student");
+        headers.add("Student Code");
+        headers.add("Major");
+        headers.add("Semester");
+        headers.add("Average");
+
+        Map<StudentSemesterCourse, StudentAverageGrade> gradeMap = new HashMap<>();
+        List<Grade> gradeList = gradeRepository.findAll();
+        for (int i = 0; i < gradeList.size(); i++) {
+            StudentSemesterCourse key
+                    = new StudentSemesterCourse(gradeList.get(i).getStudent(),
+                            gradeList.get(i).getSemester(), gradeList.get(i).getCourse());
+            if (gradeMap.containsKey(key)) {
+                continue;
+            }
+            float average = service.
+                    AverageGradeStudentSemester(gradeList.get(i).getStudent_id(), gradeList.get(i).getSemester_id());
+            gradeMap.put(key,
+                    new StudentAverageGrade(gradeList.get(i).getStudent(),
+                            gradeList.get(i).getSemester(), average));
+        }
+        
+        
+        for (Map.Entry<StudentSemesterCourse, StudentAverageGrade> entry :gradeMap.entrySet()){
+            StudentAverageGrade value = entry.getValue();
+            recordStrings.add(value.getStudent().getName()+";"+
+                    value.getStudent().getUser().getCode()+";"+
+                    value.getStudent().getCurriculum().getDept().getMajor().getName()+";"+
+                    value.getSemester().getName()+";"+
+                    value.getAverageGrade()
+                    );
+        }
+
+        /**
+         * // test export grades
+         *
+         * List<Grade> grades = gradeRepository.findAll();
+         * headers.add("Course"); headers.add("Student");
+         * headers.add("Semester"); headers.add("Grade Type");
+         * headers.add("Grade"); for(Grade g : grades) {
+         * recordStrings.add(g.getCourse().getName()+";"+
+         * g.getStudent().getName()+";"+ g.getSemester().getName()+";"+
+         * g.getGrade_type()+";"+ g.getValue()); }
+         *
+         *
+         */
+        ExcelExporter generator = new ExcelExporter(headers, recordStrings);
+
+        generator.generate(response);
     }
 }
