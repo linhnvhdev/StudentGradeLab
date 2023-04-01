@@ -67,7 +67,7 @@
                     </tr>
                 <c:forEach items="${list}" var="l">
                     <tr>
-                        <td>${l.value.student.name}</td>
+                        <td><a href="/admin/admin-grades-list/student?id=${l.value.student.id}">${l.value.student.name}</a></td>
                         <td>${l.value.student.user.code}</td>
                         <td>${l.value.student.curriculum.dept.major.name}</td>
                         <td>${l.value.semester.name}</td>

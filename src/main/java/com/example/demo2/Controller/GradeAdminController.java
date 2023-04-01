@@ -4,12 +4,16 @@
  */
 package com.example.demo2.Controller;
 
+import com.example.demo2.Model.Course;
+import com.example.demo2.Model.Curriculum;
+import com.example.demo2.Model.Curriculum_Course;
 import com.example.demo2.Model.Grade;
 import com.example.demo2.Model.Major;
 import com.example.demo2.Model.Student;
 import com.example.demo2.Model.StudentAverageGrade;
 import com.example.demo2.Model.StudentSemesterCourse;
 import com.example.demo2.Model.User;
+import com.example.demo2.Repository.CurriculumRepository;
 import com.example.demo2.Repository.GradeRepository;
 import com.example.demo2.Repository.MajorRepository;
 import com.example.demo2.Repository.SemesterRepository;
@@ -49,6 +53,11 @@ public class GradeAdminController {
     private MajorRepository majorRepository;
     @Autowired
     private SemesterRepository semesterRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private CurriculumRepository curriculumRepository;
     @Autowired
     private GradeCalculatingService service;
 
@@ -128,8 +137,32 @@ public class GradeAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-grades-list/student", method = RequestMethod.GET)
-    public String getStudentGradesList() {
-        return "admin-student-grades-list";
+    public String getStudentGradesList(@RequestParam("id") int id, Model model) {
+        Student student = studentRepository.findById(id).get();
+        Curriculum curriculum = curriculumRepository.findById(student.getCurriculum().getId()).get();
+
+        List<Curriculum_Course> curriculemCourse = curriculum.getCurriculemCourse();
+        List<Course> ccs = new ArrayList<>();
+        HashMap<Curriculum_Course, Course> courses = new HashMap<>();
+        for (Curriculum_Course cc : curriculemCourse) {
+            ccs.add(cc.getCourse());
+        }
+
+        HashMap<Integer, Float> averageGrades = new HashMap<>();
+        HashMap<Integer, Boolean> isPass = new HashMap<>();
+
+        for (Course course : ccs) {
+            averageGrades.put(course.getId(), service.AverageGradeStudentCourse(student.getId(), course.getId()));
+            isPass.put(course.getId(), service.IsPassCourse(student.getId(), course.getId()));
+        }
+
+        model.addAttribute("curriculum", curriculum);
+        model.addAttribute("curriculemCourse", curriculemCourse);
+        model.addAttribute("student", student);
+        model.addAttribute("courses", ccs);
+        model.addAttribute("averageGrades", averageGrades);
+        model.addAttribute("isPass", isPass);
+        return "admin-student-transcript";
     }
 
     @RequestMapping(value = "/admin/admin-grades-list/export", method = RequestMethod.GET)
@@ -166,16 +199,15 @@ public class GradeAdminController {
                     new StudentAverageGrade(gradeList.get(i).getStudent(),
                             gradeList.get(i).getSemester(), average));
         }
-        
-        
-        for (Map.Entry<StudentSemesterCourse, StudentAverageGrade> entry :gradeMap.entrySet()){
+
+        for (Map.Entry<StudentSemesterCourse, StudentAverageGrade> entry : gradeMap.entrySet()) {
             StudentAverageGrade value = entry.getValue();
-            recordStrings.add(value.getStudent().getName()+";"+
-                    value.getStudent().getUser().getCode()+";"+
-                    value.getStudent().getCurriculum().getDept().getMajor().getName()+";"+
-                    value.getSemester().getName()+";"+
-                    value.getAverageGrade()
-                    );
+            recordStrings.add(value.getStudent().getName() + ";"
+                    + value.getStudent().getUser().getCode() + ";"
+                    + value.getStudent().getCurriculum().getDept().getMajor().getName() + ";"
+                    + value.getSemester().getName() + ";"
+                    + value.getAverageGrade()
+            );
         }
 
         /**
