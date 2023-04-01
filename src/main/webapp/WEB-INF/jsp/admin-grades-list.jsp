@@ -22,6 +22,10 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
+            <blockquote class="blockquote-reverse">
+                    <h1>Welcome admin!</h1>
+                    <a href="/logout" class="btn btn-primary">Log out</a>
+                </blockquote>
             <font size="+1">
                 <br/>
                 <br/>

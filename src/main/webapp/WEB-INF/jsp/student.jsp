@@ -36,6 +36,11 @@
                             <h4>   <a href="/student/viewgrade" class="text-center">View Grade</a></h4>
                         </button>
                     </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-block text-center" style="background-color: darkorange">
+                            <h4>   <a href="/student/transcript" class="text-center">View Transcript</a></h4>
+                        </button>
+                    </div>
                 </div>
             </div>
     </body>

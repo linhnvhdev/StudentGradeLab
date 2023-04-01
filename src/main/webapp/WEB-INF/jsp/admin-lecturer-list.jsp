@@ -25,6 +25,7 @@
             <div class="container">
                 <blockquote class="blockquote-reverse">
                     <h1>Welcome admin!</h1>
+                    <a href="/logout" class="btn btn-primary">Log out</a>
                 </blockquote>
             </div>
             <br/>
@@ -49,7 +50,7 @@
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-block text-center" style="background-color: darkorange">
-                            <h4>    <a href="/admin/admin-classes-list" class="text-center">View Classes</a></h4>
+                            <h4>    <a href="/admin/admin-course-list" class="text-center">View Course</a></h4>
                         </button>
                     </div>
                 </div>
