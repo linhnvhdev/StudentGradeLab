@@ -39,7 +39,7 @@ public class AuthenticationController {
         user.setPassword(password);
         User userDb = userRepository.findById(user.getCode()).get();
         if(userDb.getPassword().equals(user.getPassword())){
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("user", userDb);
             return "home";
         }else{
             model.addAttribute("error", "Please check your username and password!");

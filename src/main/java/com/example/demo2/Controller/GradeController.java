@@ -15,6 +15,7 @@ import com.example.demo2.Model.Grade;
 import com.example.demo2.Model.GradeList;
 import com.example.demo2.Model.Grade_Id;
 import com.example.demo2.Model.LearnGroup;
+import com.example.demo2.Model.Lecturer;
 import com.example.demo2.Model.Semester;
 import com.example.demo2.Model.Student;
 import com.example.demo2.Model.User;
@@ -30,6 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -212,8 +214,13 @@ public class GradeController {
     }
     
     @RequestMapping(path = "/grade/groups",method=RequestMethod.GET)
-    public String GetAllGroup(Model model, @RequestParam(name = "semesterId", defaultValue = "-1") int semesterId) {
-        List<LearnGroup> groups =  groupRepository.findAll();
+    public String GetAllGroup(Model model, @RequestParam(name = "semesterId", defaultValue = "-1") int semesterId,HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user"); 
+        if(user == null || user.getRole().getId() != 2){
+            return "redirect:/login";
+        }
+        Lecturer lecturer = user.getLecturer();
+        List<LearnGroup> groups =  groupRepository.findByLecturer(lecturer);
         HashSet<Semester> semesters = new HashSet<>();
         
         

@@ -6,6 +6,7 @@ package com.example.demo2.Repository;
 
 import com.example.demo2.Model.Grade;
 import com.example.demo2.Model.LearnGroup;
+import com.example.demo2.Model.Lecturer;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GroupGradeRepository extends JpaRepository<LearnGroup, Integer> {
-    
+    List<LearnGroup> findByLecturer(Lecturer lecturer);
 }
