@@ -17,11 +17,27 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>JSP Page</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body>
-            <button>
-                <a href="/student/viewgrade">View Grade</a>
-            </button>
-        </body>
-    </html>
+            <div class="container">
+                <blockquote class="blockquote-reverse">
+                    <h1>Welcome ${sessionScope.user.code}!</h1>
+                    <a href="/logout" class="btn btn-primary">Log out</a>
+                </blockquote>
+            </div>
+            <div class="container" style="background-color: darkorange">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button class="btn btn-block text-center" style="background-color: darkorange">
+                            <h4>   <a href="/student/viewgrade" class="text-center">View Grade</a></h4>
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>
 </f:view>

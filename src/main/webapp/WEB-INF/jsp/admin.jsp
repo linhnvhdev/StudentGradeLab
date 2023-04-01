@@ -26,6 +26,7 @@
             <div class="container">
                 <blockquote class="blockquote-reverse">
                     <h1>Welcome admin!</h1>
+                    <a href="/logout" class="btn btn-primary">Log out</a>
                 </blockquote>
             </div>
             <br/>

@@ -15,6 +15,7 @@ import com.example.demo2.Repository.RoleRepository;
 import com.example.demo2.Repository.UserRepository;
 import java.sql.Date;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +36,23 @@ public class LecturerAdminController {
     public LecturerRepository lecturerRepository;
     @Autowired
     public RoleRepository roleRepository;
-        @RequestMapping(value = "/admin/admin-lecturer-list", method = RequestMethod.GET)
-    public String getLecturerList(Model model) {
+
+    @RequestMapping(value = "/admin/admin-lecturer-list", method = RequestMethod.GET)
+    public String getLecturerList(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         model.addAttribute("lec", lecturerRepository.findAll());
         return "admin-lecturer-list";
     }
 
     @RequestMapping(value = "/admin/admin-lecturer-list/delete", method = RequestMethod.GET)
-    public String deleteLecturer(@RequestParam("id") int id, Model model) {
+    public String deleteLecturer(@RequestParam("id") int id, Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         Lecturer s = lecturerRepository.findById(id).get();
         lecturerRepository.deleteById(id);
         userRepository.delete(s.getUser());
@@ -50,7 +60,11 @@ public class LecturerAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-lecturer-list/create", method = RequestMethod.GET)
-    public String createLecturer(Model model) {
+    public String createLecturer(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         return "create-lecturer";
     }
 
@@ -61,7 +75,12 @@ public class LecturerAdminController {
             @RequestParam("gender") String gender,
             @RequestParam("code") String code,
             @RequestParam("pass") String pass,
-            Model model) {
+            Model model,
+            HttpServletRequest request) {
+        User userx = (User) request.getSession().getAttribute("user");
+        if (userx == null || userx.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
         User user = new User();
         user.setCode(code);
         user.setPassword(pass);
@@ -85,7 +104,7 @@ public class LecturerAdminController {
     }
 
     @RequestMapping(value = "/admin/admin-lecturer-list/edit", method = RequestMethod.GET)
-    public String editLecturer(@RequestParam("id") int id, Model model) {
+    public String editLecturer(@RequestParam("id") int id, Model model, HttpServletRequest request) {
         model.addAttribute("lec", lecturerRepository.getById(id));
 
         return "update-lecturer";
@@ -99,9 +118,13 @@ public class LecturerAdminController {
             @RequestParam("gender") String gender,
             @RequestParam("code") String code,
             @RequestParam("pass") String pass,
-            Model model) {
-
-        Lecturer lecturer  = lecturerRepository.findById(lid).get();
+            Model model,
+            HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null || user.getRole().getId() != 1) {
+            return "redirect:/login";
+        }
+        Lecturer lecturer = lecturerRepository.findById(lid).get();
         lecturer.setName(name);
         lecturer.setDob(dob);
         if (gender.equals("male")) {
