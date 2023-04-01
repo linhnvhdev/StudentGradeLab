@@ -75,6 +75,7 @@
                     </tr>
                 </c:forEach>
             </table>
+            <a href="/admin">Back</a>
         </body>
     </html>
 </f:view>
