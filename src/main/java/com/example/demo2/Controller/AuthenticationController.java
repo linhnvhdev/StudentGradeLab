@@ -53,8 +53,8 @@ public class AuthenticationController {
     }
     
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public RedirectView logout(HttpServletRequest request){
         request.getSession().setAttribute("user", null);
-        return "login";
+        return new RedirectView("/login");
     }
 }
